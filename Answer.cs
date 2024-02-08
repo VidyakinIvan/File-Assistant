@@ -43,14 +43,14 @@ namespace File_Assistant
 
         public Answer()
         {
-            Methods = new List<Action>()
-            {
+            Methods =
+            [
                 First,
                 Second,
                 Third,
                 Fourth,
                 Fifth
-            };
+            ];
         }
         public override bool CanSolveTask(int num)
         {
@@ -100,12 +100,10 @@ namespace File_Assistant
             Console.ReadKey();
             try
             {
-                using (FileStream file = new(FileName, FileMode.Open, FileAccess.Read))
-                {
-                    byte[] array = new byte[file.Length];
-                    file.Read(array, 0, array.Length);
-                    Console.WriteLine($"Text from file: {Encoding.UTF8.GetString(array)}. Press any button...");
-                }
+                using FileStream file = new(FileName, FileMode.Open, FileAccess.Read);
+                byte[] array = new byte[file.Length];
+                file.Read(array, 0, array.Length);
+                Console.WriteLine($"Text from file: {Encoding.UTF8.GetString(array)}. Press any button...");
             }
             catch (FileNotFoundException)
             {
@@ -130,16 +128,14 @@ namespace File_Assistant
             Console.ReadKey();
             try
             {
-                using (FileStream file = new(fileName, FileMode.Open, FileAccess.Read))
-                {
-                    Person? restoredPerson = JsonSerializer.Deserialize<Person>(file) ?? throw new Exception();
-                    Console.WriteLine(@$"Object was deserialized.
+                using FileStream file = new(fileName, FileMode.Open, FileAccess.Read);
+                Person? restoredPerson = JsonSerializer.Deserialize<Person>(file) ?? throw new Exception();
+                Console.WriteLine(@$"Object was deserialized.
                         Firstname: {restoredPerson.Firstname}
                         Lastname: {restoredPerson.Lastname}
                         Age: {restoredPerson.Age}
                         Country: {restoredPerson.Country}
                         City: {restoredPerson.City}.");
-                }
             }
             catch (FileNotFoundException)
             {
@@ -173,16 +169,14 @@ namespace File_Assistant
             Console.ReadKey();
             try
             {
-                using (FileStream file = new(FileName, FileMode.Open, FileAccess.Read))
-                {
-                    Person? restoredPerson = xmlSerializer.Deserialize(file) as Person ?? throw new Exception();
-                    Console.WriteLine(@$"Object was deserialized.
+                using FileStream file = new(FileName, FileMode.Open, FileAccess.Read);
+                Person? restoredPerson = xmlSerializer.Deserialize(file) as Person ?? throw new Exception();
+                Console.WriteLine(@$"Object was deserialized.
                         Firstname: {restoredPerson.Firstname}
                         Lastname: {restoredPerson.Lastname}
                         Age: {restoredPerson.Age}
                         Country: {restoredPerson.Country}
                         City: {restoredPerson.City}.");
-                }
             }
             catch (FileNotFoundException)
             {
@@ -260,12 +254,12 @@ namespace File_Assistant
         }
         protected override string FileNameInput(string def)
         {
-            string type = def.Substring(def.LastIndexOf("."));
+            string type = def[def.LastIndexOf('.')..];
             if (String.IsNullOrWhiteSpace(FileName))
             {
                 FileName = def;
             }
-            else if (FileName.Length < type.Length || !FileName.Substring(FileName.Length - 4).Equals(type))
+            else if (FileName.Length < type.Length || !FileName[^4..].Equals(type))
             {
                 FileName += type;
             }
