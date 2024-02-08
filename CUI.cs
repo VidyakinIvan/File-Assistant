@@ -15,14 +15,14 @@
                 XMLSerialization,
                 ZipArchives
             };
-            Console.WriteLine(@"Приложение для выполнения первого практического задания.
-                1 - Задание по работе с файловой системой.
-                2 - Задание по работе с файловыми потоками.
-                3 - Задание по работе с форматом JSON.
-                4 - Задание по работе с форматом XML.
-                5 - Задание по работе с архивом zip.
-                0 - Выход. 
-                Введите номер команды.");
+            Console.WriteLine(@"Welcome to File Assistant console application!
+                Please, enter the number of required action.
+                1 - File system stats.
+                2 - Text file actions.
+                3 - JSON file actions.
+                4 - XML file actions.
+                5 - Zip archive actions.
+                0 - Close application.");
             string? command = Console.ReadLine();
             while (command != "0")
             {
@@ -32,9 +32,9 @@
                 }
                 else
                 {
-                    Console.WriteLine("Неизвестная команда");
+                    Console.WriteLine("Unknown command");
                 }
-                Console.WriteLine("Введите номер команды.");
+                Console.WriteLine("Please, enter the number.");
                 command = Console.ReadLine();
             }
 
@@ -45,63 +45,63 @@
         }
         private void FileStreams(int num)
         {
-            Console.WriteLine("Введите имя файла:");
+            Console.WriteLine("Enter file name:");
             answers.FileName = Console.ReadLine();
-            Console.WriteLine("Введите любую строку...");
+            Console.WriteLine("Enter file content...");
             answers.InputString = Console.ReadLine();
             answers.SolveTask(num);
         }
         private void JSONSerialization(int num)
         {
-            Console.WriteLine("Введите имя файла:");
+            Console.WriteLine("Enter file name:");
             answers.FileName = Console.ReadLine();
-            Console.WriteLine("Введите имя.");
+            Console.WriteLine("Enter your firstname.");
             string? firstname = Console.ReadLine();
-            Console.WriteLine("Введите фамилию.");
+            Console.WriteLine("Enter your lastname.");
             string? lastname = Console.ReadLine();
-            Console.WriteLine("Введите возраст.");
+            Console.WriteLine("Enter your age.");
             string? age = Console.ReadLine();
-            Console.WriteLine("Введите страну.");
+            Console.WriteLine("Enter your country.");
             string? country = Console.ReadLine();
-            Console.WriteLine("Введите город.");
+            Console.WriteLine("Enter your city.");
             string? city = Console.ReadLine();
             Person person = new(
-                String.IsNullOrWhiteSpace(firstname) ? "Имя пропущено" : firstname,
-                String.IsNullOrWhiteSpace(lastname) ? "Фамилия пропущена" : lastname,
+                String.IsNullOrWhiteSpace(firstname) ? "The firstname is missing" : firstname,
+                String.IsNullOrWhiteSpace(lastname) ? "The lastname is missing" : lastname,
                 Int32.TryParse(age, out int result) ? result : 0,
-                String.IsNullOrWhiteSpace(country) ? "Страна пропущена" : country,
-                String.IsNullOrWhiteSpace(city) ? "Город пропущен" : city);
+                String.IsNullOrWhiteSpace(country) ? "The country is missing" : country,
+                String.IsNullOrWhiteSpace(city) ? "The city is missing" : city);
             answers.InputPerson = person;
             answers.SolveTask(num);
         }
         private void XMLSerialization(int num)
         {
-            Console.WriteLine("Введите имя файла:");
+            Console.WriteLine("Enter file name:");
             answers.FileName = Console.ReadLine();
-            Console.WriteLine("Введите имя.");
+            Console.WriteLine("Enter your firstname.");
             string? firstname = Console.ReadLine();
-            Console.WriteLine("Введите фамилию.");
+            Console.WriteLine("Enter your lastname.");
             string? lastname = Console.ReadLine();
-            Console.WriteLine("Введите возраст.");
+            Console.WriteLine("Enter your age.");
             string? age = Console.ReadLine();
-            Console.WriteLine("Введите страну.");
+            Console.WriteLine("Enter your country.");
             string? country = Console.ReadLine();
-            Console.WriteLine("Введите город.");
+            Console.WriteLine("Enter your city.");
             string? city = Console.ReadLine();
             Person person = new(
-                String.IsNullOrWhiteSpace(firstname) ? "Имя пропущено" : firstname,
-                String.IsNullOrWhiteSpace(lastname) ? "Фамилия пропущена" : lastname,
+                String.IsNullOrWhiteSpace(firstname) ? "The firstname is missing" : firstname,
+                String.IsNullOrWhiteSpace(lastname) ? "The lastname is missing" : lastname,
                 Int32.TryParse(age, out int result) ? result : 0,
-                String.IsNullOrWhiteSpace(country) ? "Страна пропущена" : country,
-                String.IsNullOrWhiteSpace(city) ? "Город пропущен" : city);
+                String.IsNullOrWhiteSpace(country) ? "The country is missing" : country,
+                String.IsNullOrWhiteSpace(city) ? "The city is missing" : city);
             answers.InputPerson = person;
             answers.SolveTask(num);
         }
         private void ZipArchives(int num)
         {
-            Console.WriteLine("Введите имя файла архива:");
+            Console.WriteLine("Enter achive name:");
             answers.FileName = Console.ReadLine();
-            Console.WriteLine("Введите полный путь до файла.");
+            Console.WriteLine("Enter file path.");
             answers.InputString = Console.ReadLine();
             answers.SolveTask(num);
         }
