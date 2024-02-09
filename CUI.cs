@@ -7,14 +7,14 @@
         public CUI(Tasks answers)
         {
             this.answers = answers;
-            Methods = new List<Action<int>>()
-            {
+            Methods =
+            [
                 FileSystem,
                 FileStreams,
                 JSONSerialization,
                 XMLSerialization,
                 ZipArchives
-            };
+            ];
             Console.WriteLine(@"Welcome to File Assistant console application!
                 Please, enter the number of required action.
                 1 - File system stats.
