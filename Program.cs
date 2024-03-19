@@ -1,2 +1,2 @@
 ﻿using File_Assistant;
-CUI _ = new(new Answer());
+Controller _ = new(new Answer());
