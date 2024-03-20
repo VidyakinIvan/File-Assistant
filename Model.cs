@@ -9,7 +9,7 @@ namespace File_Assistant
     internal class Model : IModel
     {
         private Person person = new();
-        public Person? InputPerson
+        public Person InputPerson
         {
             get
             {
@@ -24,7 +24,7 @@ namespace File_Assistant
             }
         }
         private string inputString = "The text was not entered.";
-        public string? InputString
+        public string InputString
         {
             get
             {
@@ -38,7 +38,18 @@ namespace File_Assistant
                 }
             }
         }
-        public string? FileName { get; set; }
+        private string fileName = "Undefined.txt";
+        public string FileName 
+        { 
+            get
+            {
+                return fileName;
+            }
+            set
+            {
+                fileName = validateFileName(value, ".txt");
+            }
+        }
 
         public string FileSystemInfo()
         {
@@ -58,35 +69,42 @@ namespace File_Assistant
             }
             return stringBuilder.ToString();
         }
-        public void TextFilesHandling()
+        public string CreateTextFile()
         {
-            FileName = FileNameInput("Second.txt");
-            using (FileStream file = new(FileName, FileMode.Create, FileAccess.Write))
-            {
-                byte[] array = Encoding.UTF8.GetBytes(InputString!);
-                file.Write(array, 0, array.Length);
-                Console.WriteLine("Text is writen down. Press any button...");
-            }
-            Console.ReadKey();
-            try
-            {
-                using FileStream file = new(FileName, FileMode.Open, FileAccess.Read);
-                byte[] array = new byte[file.Length];
-                file.Read(array, 0, array.Length);
-                Console.WriteLine($"Text from file: {Encoding.UTF8.GetString(array)}. Press any button...");
-            }
-            catch (FileNotFoundException)
-            {
-                Console.WriteLine("Something went wrong. Possibly, file was deleted or moved.");
-            }
-            Console.ReadKey();
-            FileInfo fileInfo = new(FileName);
-            if (fileInfo.Exists)
-            {
-                fileInfo.Delete();
-                Console.WriteLine("File was deleted.");
-            }
+            using FileStream file = new(FileName, FileMode.Create, FileAccess.Write);
+            byte[] array = Encoding.UTF8.GetBytes(InputString);
+            file.Write(array, 0, array.Length);
+            return "Text is writen down. Press any button...";
         }
+        //public void TextFilesHandling()
+        //{
+        //    FileName = FileNameInput("Second.txt");
+        //    using (FileStream file = new(FileName, FileMode.Create, FileAccess.Write))
+        //    {
+        //        byte[] array = Encoding.UTF8.GetBytes(InputString!);
+        //        file.Write(array, 0, array.Length);
+        //        Console.WriteLine("Text is writen down. Press any button...");
+        //    }
+        //    Console.ReadKey();
+        //    try
+        //    {
+        //        using FileStream file = new(FileName, FileMode.Open, FileAccess.Read);
+        //        byte[] array = new byte[file.Length];
+        //        file.Read(array, 0, array.Length);
+        //        Console.WriteLine($"Text from file: {Encoding.UTF8.GetString(array)}. Press any button...");
+        //    }
+        //    catch (FileNotFoundException)
+        //    {
+        //        Console.WriteLine("Something went wrong. Possibly, file was deleted or moved.");
+        //    }
+        //    Console.ReadKey();
+        //    FileInfo fileInfo = new(FileName);
+        //    if (fileInfo.Exists)
+        //    {
+        //        fileInfo.Delete();
+        //        Console.WriteLine("File was deleted.");
+        //    }
+        //}
         public void JsonFilesHandling()
         {
             string? fileName = FileNameInput("Third.json");
@@ -235,6 +253,17 @@ namespace File_Assistant
             }
             return FileName!;
         }
-
+        private string validateFileName(string fileName, string extension)
+        {
+            if (String.IsNullOrWhiteSpace(fileName))
+            {
+                return "Undefined"+extension;
+            }
+            if (fileName.Length < extension.Length || !fileName[^extension.Length..].Equals(extension))
+            {
+                return fileName + extension;
+            }
+            return fileName;
+        }
     }
 }

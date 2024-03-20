@@ -47,6 +47,34 @@
                 }
             }
         }
+        private void FileSystem(int num)
+        {
+            View.ShowResult(model.FileSystemInfo());
+        }
+        private void FileStreams(int num)
+        {
+            switch (View.getFileCommand())
+            {
+                case "1":
+                    model.FileName = View.ReadLine("Enter file name:");
+                    model.InputString = "";
+                    model.CreateTextFile();
+                    break;
+                case "2":
+                    model.FileName = View.ReadLine("Enter file name:");
+                    model.InputString = View.ReadLine("Enter file content...");
+                    model.CreateTextFile();
+                    break;
+                //"3" => model.InsertDataInFile();
+                //"4" => model.DeleteFile();
+                case "0":
+                    break;
+                default:
+                    View.ShowResult("Invalid command. Please enter a number between 0 and 4.");
+                    break;
+            }
+
+        }
         private void JSONSerialization(int num)
         {
             model.FileName = View.ReadLine("Enter file name:");
@@ -58,16 +86,6 @@
             model.FileName = View.ReadLine("Enter file name:");
             model.InputPerson = View.PromptForPerson();
             model.XmlFilesHandling();
-        }
-        private void FileSystem(int num)
-        {
-            View.ShowResult(model.FileSystemInfo());
-        }
-        private void FileStreams(int num)
-        {
-            model.FileName = View.ReadLine("Enter file name:");
-            model.InputString = View.ReadLine("Enter file content...");
-            model.TextFilesHandling();
         }
         private void ZipArchives(int num)
         {
