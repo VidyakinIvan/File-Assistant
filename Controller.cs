@@ -4,10 +4,10 @@
     {
         private List<Action<int>> Methods { get; }
         private View View { get; }
-        readonly Tasks answers;
-        public Controller(Tasks answers)
+        readonly IModel model;
+        public Controller(IModel model)
         {
-            this.answers = answers;
+            this.model = model;
             this.View = new();
             Methods =
             [
@@ -29,7 +29,7 @@
                 {
                     break;
                 }
-                if (Int32.TryParse(command, out int result) && result > 0 && result <= 5 && answers.CanSolveTask(result))
+                if (Int32.TryParse(command, out int result) && result > 0 && result <= 5)
                 {
                     try
                     {
@@ -49,34 +49,31 @@
         }
         private void JSONSerialization(int num)
         {
-            answers.FileName = View.GetFilename();
-            answers.InputPerson = View.PromptForPerson();
-            answers.SolveTask(num);
+            model.FileName = View.ReadLine("Enter file name:");
+            model.InputPerson = View.PromptForPerson();
+            model.JsonFilesHandling();
         }
         private void XMLSerialization(int num)
         {
-            answers.FileName = View.GetFilename();
-            answers.InputPerson = View.PromptForPerson();
-            answers.SolveTask(num);
+            model.FileName = View.ReadLine("Enter file name:");
+            model.InputPerson = View.PromptForPerson();
+            model.XmlFilesHandling();
         }
         private void FileSystem(int num)
         {
-            answers.SolveTask(num);
+            View.ShowResult(model.FileSystemInfo());
         }
         private void FileStreams(int num)
         {
-            answers.FileName = View.GetFilename();
-            Console.WriteLine("Enter file content...");
-            answers.InputString = Console.ReadLine();
-            answers.SolveTask(num);
+            model.FileName = View.ReadLine("Enter file name:");
+            model.InputString = View.ReadLine("Enter file content...");
+            model.TextFilesHandling();
         }
         private void ZipArchives(int num)
         {
-            Console.WriteLine("Enter achive name:");
-            answers.FileName = Console.ReadLine();
-            Console.WriteLine("Enter file path.");
-            answers.InputString = Console.ReadLine();
-            answers.SolveTask(num);
+            model.FileName = View.ReadLine("Enter achive name:");
+            model.InputString = View.ReadLine("Enter file path.");
+            model.ZipFilesHandling();
         }
     }
 

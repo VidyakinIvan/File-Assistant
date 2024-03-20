@@ -6,10 +6,10 @@ using System.Xml.Serialization;
 
 namespace File_Assistant
 {
-    internal class Answer : Tasks
+    internal class Model : IModel
     {
         private Person person = new();
-        public override Person? InputPerson
+        public Person? InputPerson
         {
             get
             {
@@ -24,9 +24,9 @@ namespace File_Assistant
             }
         }
         private string inputString = "The text was not entered.";
-        public override string? InputString
+        public string? InputString
         {
-            protected get
+            get
             {
                 return inputString;
             }
@@ -38,57 +38,27 @@ namespace File_Assistant
                 }
             }
         }
-        public override string? FileName { get; set; }
-        private List<Action> Methods { get; }
+        public string? FileName { get; set; }
 
-        public Answer()
-        {
-            Methods =
-            [
-                First,
-                Second,
-                Third,
-                Fourth,
-                Fifth
-            ];
-        }
-        public override bool CanSolveTask(int num)
-        {
-            if (num < 1 || num > Methods.Count)
-            {
-                return false;
-            }
-            return true;
-        }
-        public override void SolveTask(int num)
-        {
-            try
-            {
-                Methods[num].Invoke();
-            }
-            catch (IndexOutOfRangeException)
-            {
-                Console.WriteLine("Error: task with current number not found.");
-            }
-        }
-        protected override void First()
+        public string FileSystemInfo()
         {
             DriveInfo[] drives = DriveInfo.GetDrives();
-
+            StringBuilder stringBuilder = new();
             foreach (DriveInfo drive in drives)
             {
-                Console.WriteLine($"Name: {drive.Name}");
-                Console.WriteLine($"\tType: {drive.DriveType}");
+                stringBuilder.AppendLine($"Name: {drive.Name}");
+                stringBuilder.AppendLine($"\tType: {drive.DriveType}");
                 if (drive.IsReady)
                 {
-                    Console.WriteLine($"\tDisk space: {drive.TotalSize}B");
-                    Console.WriteLine($"\tFree space: {drive.TotalFreeSpace}B");
-                    Console.WriteLine($"\tLabel: {drive.VolumeLabel}");
-                    Console.WriteLine($"\tFormat: {drive.DriveFormat}");
+                    stringBuilder.AppendLine($"\tDisk space: {drive.TotalSize}B");
+                    stringBuilder.AppendLine($"\tFree space: {drive.TotalFreeSpace}B");
+                    stringBuilder.AppendLine($"\tLabel: {drive.VolumeLabel}");
+                    stringBuilder.AppendLine($"\tFormat: {drive.DriveFormat}");
                 }
             }
+            return stringBuilder.ToString();
         }
-        protected override void Second()
+        public void TextFilesHandling()
         {
             FileName = FileNameInput("Second.txt");
             using (FileStream file = new(FileName, FileMode.Create, FileAccess.Write))
@@ -117,7 +87,7 @@ namespace File_Assistant
                 Console.WriteLine("File was deleted.");
             }
         }
-        protected override void Third()
+        public void JsonFilesHandling()
         {
             string? fileName = FileNameInput("Third.json");
             using (FileStream file = new(fileName, FileMode.Create, FileAccess.Write))
@@ -157,7 +127,7 @@ namespace File_Assistant
                 }
             }
         }
-        protected override void Fourth()
+        public void XmlFilesHandling()
         {
             FileName = FileNameInput("Fourth.xml");
             XmlSerializer xmlSerializer = new(typeof(Person));
@@ -199,7 +169,7 @@ namespace File_Assistant
             }
 
         }
-        protected override void Fifth()
+        public void ZipFilesHandling()
         {
             FileName = FileNameInput("Fifth.zip");
             try
@@ -252,7 +222,7 @@ namespace File_Assistant
                 }
             }
         }
-        protected override string FileNameInput(string def)
+        protected string FileNameInput(string def)
         {
             string type = def[def.LastIndexOf('.')..];
             if (String.IsNullOrWhiteSpace(FileName))

@@ -38,10 +38,9 @@
         {
             Console.WriteLine(message);
         }
-
-        public string? GetFilename()
+        public string? ReadLine(string message)
         {
-            Console.WriteLine("Enter file name:");
+            Console.WriteLine(message);
             return Console.ReadLine();
         }
     }
