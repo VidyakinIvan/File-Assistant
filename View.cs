@@ -43,14 +43,14 @@
             Console.WriteLine(message);
             return Console.ReadLine() ?? "The text was not entered";
         }
-        public string? getFileCommand()
+        public string? GetFileCommand()
         {
             Console.WriteLine(@"Please, choose required file action.
                         1 - Create empty file.
                         2 - Create file with data.
                         3 - Insert data in existing file.
                         4 - Delete file.
-                        0 - Abort operation.");
+                        0 - Exit.");
             string? command = Console.ReadLine();
             return command;
         }

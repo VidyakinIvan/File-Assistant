@@ -53,27 +53,38 @@
         }
         private void FileStreams(int num)
         {
-            switch (View.getFileCommand())
+            string? command = View.GetFileCommand();
+            while (command != "0")
             {
-                case "1":
-                    model.FileName = View.ReadLine("Enter file name:");
-                    model.InputString = "";
-                    model.CreateTextFile();
-                    break;
-                case "2":
-                    model.FileName = View.ReadLine("Enter file name:");
-                    model.InputString = View.ReadLine("Enter file content...");
-                    model.CreateTextFile();
-                    break;
-                //"3" => model.InsertDataInFile();
-                //"4" => model.DeleteFile();
-                case "0":
-                    break;
-                default:
-                    View.ShowResult("Invalid command. Please enter a number between 0 and 4.");
-                    break;
+                switch (command)
+                {
+                    case "1":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        model.InputString = "";
+                        View.ShowResult(model.CreateTextFile());
+                        break;
+                    case "2":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        model.InputString = View.ReadLine("Enter file content...");
+                        View.ShowResult(model.CreateTextFile());
+                        break;
+                    case "3":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        model.InputString = View.ReadLine("Enter file content...");
+                        View.ShowResult(model.InsertTextFile());
+                        break;
+                    case "4":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        View.ShowResult(model.DeleteTextFile());
+                        break;
+                    case "0":
+                        break;
+                    default:
+                        View.ShowResult("Invalid command. Please enter a number between 0 and 4.");
+                        break;
+                }
+                command = View.GetFileCommand();
             }
-
         }
         private void JSONSerialization(int num)
         {

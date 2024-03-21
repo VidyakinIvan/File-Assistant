@@ -23,7 +23,7 @@ namespace File_Assistant
                 }
             }
         }
-        private string inputString = "The text was not entered.";
+        private string inputString = "";
         public string InputString
         {
             get
@@ -74,37 +74,25 @@ namespace File_Assistant
             using FileStream file = new(FileName, FileMode.Create, FileAccess.Write);
             byte[] array = Encoding.UTF8.GetBytes(InputString);
             file.Write(array, 0, array.Length);
-            return "Text is writen down. Press any button...";
+            return "File was created";
         }
-        //public void TextFilesHandling()
-        //{
-        //    FileName = FileNameInput("Second.txt");
-        //    using (FileStream file = new(FileName, FileMode.Create, FileAccess.Write))
-        //    {
-        //        byte[] array = Encoding.UTF8.GetBytes(InputString!);
-        //        file.Write(array, 0, array.Length);
-        //        Console.WriteLine("Text is writen down. Press any button...");
-        //    }
-        //    Console.ReadKey();
-        //    try
-        //    {
-        //        using FileStream file = new(FileName, FileMode.Open, FileAccess.Read);
-        //        byte[] array = new byte[file.Length];
-        //        file.Read(array, 0, array.Length);
-        //        Console.WriteLine($"Text from file: {Encoding.UTF8.GetString(array)}. Press any button...");
-        //    }
-        //    catch (FileNotFoundException)
-        //    {
-        //        Console.WriteLine("Something went wrong. Possibly, file was deleted or moved.");
-        //    }
-        //    Console.ReadKey();
-        //    FileInfo fileInfo = new(FileName);
-        //    if (fileInfo.Exists)
-        //    {
-        //        fileInfo.Delete();
-        //        Console.WriteLine("File was deleted.");
-        //    }
-        //}
+        public string InsertTextFile()
+        {
+            using FileStream file = new(FileName, FileMode.Append, FileAccess.Write);
+            byte[] array = Encoding.UTF8.GetBytes(InputString);
+            file.Write(array, 0, array.Length);
+            return "Data was inserted";
+        }
+        public string DeleteTextFile()
+        {
+            FileInfo fileInfo = new(FileName);
+            if (fileInfo.Exists)
+            {
+                fileInfo.Delete();
+                return "File was deleted.";
+            }
+            return "File doesn't exist.";
+        }
         public void JsonFilesHandling()
         {
             string? fileName = FileNameInput("Third.json");
