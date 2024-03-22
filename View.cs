@@ -1,6 +1,6 @@
 ﻿namespace File_Assistant
 {
-    internal class View
+    internal class View: IView
     {
         public string? GetCommand() 
         {
@@ -34,15 +34,42 @@
                 String.IsNullOrWhiteSpace(country) ? "The country is missing" : country,
                 String.IsNullOrWhiteSpace(city) ? "The city is missing" : city);
         }
+        public void ShowPerson(Person? restoredPerson)
+        {
+            if (restoredPerson is not null)
+            { 
+                Console.WriteLine(@$"Object was deserialized.
+                        Firstname: {restoredPerson.Firstname}
+                        Lastname: {restoredPerson.Lastname}
+                        Age: {restoredPerson.Age}
+                        Country: {restoredPerson.Country}
+                        City: {restoredPerson.City}.");
+            }
+            else
+            {
+                Console.WriteLine("The object was not deserialized.");
+            }
+        }
         public void ShowResult(string message)
         {
             Console.WriteLine(message);
         }
-
-        public string? GetFilename()
+        public string ReadLine(string message)
         {
-            Console.WriteLine("Enter file name:");
-            return Console.ReadLine();
+            Console.WriteLine(message);
+            return Console.ReadLine() ?? "The text was not entered";
+        }
+        public string? GetFileCommand()
+        {
+            Console.WriteLine(@"Please, choose required file action.
+                        1 - Create empty file.
+                        2 - Create file with data.
+                        3 - Insert data in existing file.
+                        4 - Read file.
+                        5 - Delete file.
+                        0 - Exit.");
+            string? command = Console.ReadLine();
+            return command;
         }
     }
 }
