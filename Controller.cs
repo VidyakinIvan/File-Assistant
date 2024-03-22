@@ -204,12 +204,6 @@
                 command = View.GetFileCommand();
             }
         }
-        //private void ZipArchives(int num)
-        //{
-        //    model.FileName = View.ReadLine("Enter achive name:");
-        //    model.InputString = View.ReadLine("Enter file path.");
-        //    model.ZipFilesHandling();
-        //}
     }
 
 }
