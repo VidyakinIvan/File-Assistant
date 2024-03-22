@@ -11,12 +11,10 @@
         public string InsertTextFile();
         public string ReadTextFile();
         public string DeleteFile();
-
         public string CreateJsonFile();
         public string ReadJsonFile();
-
-        public void JsonFilesHandling();
-        public void XmlFilesHandling();
+        public string CreateXmlFile();
+        public string ReadXmlFile();
         public void ZipFilesHandling();
     }
 }

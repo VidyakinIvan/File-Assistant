@@ -131,10 +131,48 @@
         }
         private void XMLSerialization(int num)
         {
-            model.FileName = View.ReadLine("Enter file name:");
-            model.InputPerson = View.PromptForPerson();
-            model.XmlFilesHandling();
+            model.FileType = ".xml";
+            string? command = View.GetFileCommand();
+            while (command != "0")
+            {
+                switch (command)
+                {
+                    case "1":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        model.InputPerson = new();
+                        View.ShowResult(model.CreateXmlFile());
+                        break;
+                    case "2":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        model.InputPerson = View.PromptForPerson();
+                        View.ShowResult(model.CreateXmlFile());
+                        break;
+                    case "3":
+                        View.ShowResult("This action is not supported for XML files.");
+                        break;
+                    case "4":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        View.ShowResult(model.ReadXmlFile());
+                        break;
+                    case "5":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        View.ShowResult(model.DeleteFile());
+                        break;
+                    case "0":
+                        break;
+                    default:
+                        View.ShowResult("Invalid command. Please enter a number between 0 and 5.");
+                        break;
+                }
+                command = View.GetFileCommand();
+            }
         }
+        //private void XMLSerialization(int num)
+        //{
+        //    model.FileName = View.ReadLine("Enter file name:");
+        //    model.InputPerson = View.PromptForPerson();
+        //    model.XmlFilesHandling();
+        //}
         private void ZipArchives(int num)
         {
             model.FileName = View.ReadLine("Enter achive name:");

@@ -34,6 +34,15 @@
                 String.IsNullOrWhiteSpace(country) ? "The country is missing" : country,
                 String.IsNullOrWhiteSpace(city) ? "The city is missing" : city);
         }
+        public void ShowPerson(Person restoredPerson)
+        {
+            Console.WriteLine(@$"Object was deserialized.
+                        Firstname: {restoredPerson.Firstname}
+                        Lastname: {restoredPerson.Lastname}
+                        Age: {restoredPerson.Age}
+                        Country: {restoredPerson.Country}
+                        City: {restoredPerson.City}.");
+        }
         public void ShowResult(string message)
         {
             Console.WriteLine(message);

@@ -142,87 +142,31 @@ namespace File_Assistant
                 return "The file contains an incorrect structure of JSON...";
             }
         }
-        public void JsonFilesHandling()
+        public string CreateXmlFile()
         {
-            string? fileName = FileNameInput("Third.json");
-            using (FileStream file = new(fileName, FileMode.Create, FileAccess.Write))
-            {
-                JsonSerializer.Serialize(file, InputPerson);
-                Console.WriteLine("Object was serialized. Press any button...");
-            }
-            Console.ReadKey();
-            try
-            {
-                using FileStream file = new(fileName, FileMode.Open, FileAccess.Read);
-                Person? restoredPerson = JsonSerializer.Deserialize<Person>(file) ?? throw new Exception();
-                Console.WriteLine(@$"Object was deserialized.
-                        Firstname: {restoredPerson.Firstname}
-                        Lastname: {restoredPerson.Lastname}
-                        Age: {restoredPerson.Age}
-                        Country: {restoredPerson.Country}
-                        City: {restoredPerson.City}.");
-            }
-            catch (FileNotFoundException)
-            {
-                Console.WriteLine("Something went wrong. Possibly, file was deleted or moved.");
-            }
-            catch (JsonException)
-            {
-                Console.WriteLine("The file contains an incorrect structure of JSON...");
-            }
-            finally
-            {
-                Console.WriteLine("Press any button...");
-                Console.ReadKey();
-                FileInfo fileInfo = new(fileName);
-                if (fileInfo.Exists)
-                {
-                    fileInfo.Delete();
-                    Console.WriteLine("File was deleted.");
-                }
-            }
-        }
-        public void XmlFilesHandling()
-        {
-            FileName = FileNameInput("Fourth.xml");
             XmlSerializer xmlSerializer = new(typeof(Person));
-            using (FileStream file = new(FileName, FileMode.Create, FileAccess.Write))
-            {
-                xmlSerializer.Serialize(file, InputPerson);
-                Console.WriteLine("Object was serialized. Press any button...");
-            }
-            Console.ReadKey();
+            using FileStream file = new(FileName, FileMode.Create, FileAccess.Write);
+            xmlSerializer.Serialize(file, InputPerson);
+            return "File was created";
+        }
+        public string ReadXmlFile()
+        {
             try
             {
                 using FileStream file = new(FileName, FileMode.Open, FileAccess.Read);
-                Person? restoredPerson = xmlSerializer.Deserialize(file) as Person ?? throw new Exception();
-                Console.WriteLine(@$"Object was deserialized.
-                        Firstname: {restoredPerson.Firstname}
-                        Lastname: {restoredPerson.Lastname}
-                        Age: {restoredPerson.Age}
-                        Country: {restoredPerson.Country}
-                        City: {restoredPerson.City}.");
+                Person? restoredPerson = new();
+                XmlSerializer xmlSerializer = new(typeof(Person));
+                restoredPerson = xmlSerializer.Deserialize(file) as Person;
+                return restoredPerson?.ToString() ?? "No data found";
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("Something went wrong. Possibly, file was deleted or moved.");
+                return "File doesn't exist.";
             }
             catch (InvalidOperationException)
             {
-                Console.WriteLine("The file contains an incorrect structure of Xml...");
+                return "The file contains an incorrect structure of Xml...";
             }
-            finally
-            {
-                Console.WriteLine("Нажмите любую клавишу...");
-                Console.ReadKey();
-                FileInfo fileInfo = new(FileName);
-                if (fileInfo.Exists)
-                {
-                    fileInfo.Delete();
-                    Console.WriteLine("File was deleted.");
-                }
-            }
-
         }
         public void ZipFilesHandling()
         {
