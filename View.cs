@@ -1,6 +1,6 @@
 ﻿namespace File_Assistant
 {
-    internal class View
+    internal class View: IView
     {
         public string? GetCommand() 
         {

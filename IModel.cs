@@ -18,6 +18,5 @@
         public string CreateZipFile();
         public string CheckZipFile();
         public string ExtractZipFile();
-        public void ZipFilesHandling();
     }
 }

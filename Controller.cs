@@ -3,12 +3,12 @@
     public class Controller
     {
         private List<Action<int>> Methods { get; }
-        private View View { get; }
+        public IView view { get; }
         readonly IModel model;
-        public Controller(IModel model)
+        public Controller(IModel model, IView view)
         {
             this.model = model;
-            this.View = new();
+            this.view = view;
             Methods =
             [
                 FileSystem,
@@ -24,7 +24,7 @@
         {
             while (true)
             {
-                string? command = View.GetCommand();
+                string? command = view.GetCommand();
                 if (command == "0")
                 {
                     break;
@@ -34,174 +34,174 @@
                     try
                     {
                         Methods[result - 1].Invoke(result - 1);
-                        View.ShowResult("Action executed successfully.");
+                        view.ShowResult("Action executed successfully.");
                     }
                     catch (Exception ex)
                     {
-                        View.ShowResult($"An error occurred: {ex.Message}");
+                        view.ShowResult($"An error occurred: {ex.Message}");
                     }
                 }
                 else
                 {
-                    View.ShowResult("Invalid command. Please enter a number between 0 and 5.");
+                    view.ShowResult("Invalid command. Please enter a number between 0 and 5.");
                 }
             }
         }
         private void FileSystem(int num)
         {
-            View.ShowResult(model.FileSystemInfo());
+            view.ShowResult(model.FileSystemInfo());
         }
         private void FileStreams(int num)
         {
             model.FileType = ".txt";
-            string? command = View.GetFileCommand();
+            string? command = view.GetFileCommand();
             while (command != "0")
             {
                 switch (command)
                 {
                     case "1":
-                        model.FileName = View.ReadLine("Enter file name:");
+                        model.FileName = view.ReadLine("Enter file name:");
                         model.InputString = "";
-                        View.ShowResult(model.CreateTextFile());
+                        view.ShowResult(model.CreateTextFile());
                         break;
                     case "2":
-                        model.FileName = View.ReadLine("Enter file name:");
-                        model.InputString = View.ReadLine("Enter file content...");
-                        View.ShowResult(model.CreateTextFile());
+                        model.FileName = view.ReadLine("Enter file name:");
+                        model.InputString = view.ReadLine("Enter file content...");
+                        view.ShowResult(model.CreateTextFile());
                         break;
                     case "3":
-                        model.FileName = View.ReadLine("Enter file name:");
-                        model.InputString = View.ReadLine("Enter file content...");
-                        View.ShowResult(model.InsertTextFile());
+                        model.FileName = view.ReadLine("Enter file name:");
+                        model.InputString = view.ReadLine("Enter file content...");
+                        view.ShowResult(model.InsertTextFile());
                         break;
                     case "4":
-                        model.FileName = View.ReadLine("Enter file name:");
-                        View.ShowResult(model.ReadTextFile());
+                        model.FileName = view.ReadLine("Enter file name:");
+                        view.ShowResult(model.ReadTextFile());
                         break;
                     case "5":
-                        model.FileName = View.ReadLine("Enter file name:");
-                        View.ShowResult(model.DeleteFile());
+                        model.FileName = view.ReadLine("Enter file name:");
+                        view.ShowResult(model.DeleteFile());
                         break;
                     case "0":
                         break;
                     default:
-                        View.ShowResult("Invalid command. Please enter a number between 0 and 5.");
+                        view.ShowResult("Invalid command. Please enter a number between 0 and 5.");
                         break;
                 }
-                command = View.GetFileCommand();
+                command = view.GetFileCommand();
             }
         }
         private void JSONSerialization(int num)
         {
             model.FileType= ".json";
-            string? command = View.GetFileCommand();
+            string? command = view.GetFileCommand();
             while (command != "0")
             {
                 switch (command)
                 {
                     case "1":
-                        model.FileName = View.ReadLine("Enter file name:");
+                        model.FileName = view.ReadLine("Enter file name:");
                         model.InputPerson = new();
-                        View.ShowResult(model.CreateJsonFile());
+                        view.ShowResult(model.CreateJsonFile());
                         break;
                     case "2":
-                        model.FileName = View.ReadLine("Enter file name:");
-                        model.InputPerson = View.PromptForPerson();
-                        View.ShowResult(model.CreateJsonFile());
+                        model.FileName = view.ReadLine("Enter file name:");
+                        model.InputPerson = view.PromptForPerson();
+                        view.ShowResult(model.CreateJsonFile());
                         break;
                     case "3":
-                        View.ShowResult("This action is not supported for JSON files.");
+                        view.ShowResult("This action is not supported for JSON files.");
                         break;
                     case "4":
-                        model.FileName = View.ReadLine("Enter file name:");
-                        View.ShowPerson(model.ReadJsonFile());
+                        model.FileName = view.ReadLine("Enter file name:");
+                        view.ShowPerson(model.ReadJsonFile());
                         break;
                     case "5":
-                        model.FileName = View.ReadLine("Enter file name:");
-                        View.ShowResult(model.DeleteFile());
+                        model.FileName = view.ReadLine("Enter file name:");
+                        view.ShowResult(model.DeleteFile());
                         break;
                     case "0":
                         break;
                     default:
-                        View.ShowResult("Invalid command. Please enter a number between 0 and 5.");
+                        view.ShowResult("Invalid command. Please enter a number between 0 and 5.");
                         break;
                 }
-                command = View.GetFileCommand();
+                command = view.GetFileCommand();
             }
         }
         private void XMLSerialization(int num)
         {
             model.FileType = ".xml";
-            string? command = View.GetFileCommand();
+            string? command = view.GetFileCommand();
             while (command != "0")
             {
                 switch (command)
                 {
                     case "1":
-                        model.FileName = View.ReadLine("Enter file name:");
+                        model.FileName = view.ReadLine("Enter file name:");
                         model.InputPerson = new();
-                        View.ShowResult(model.CreateXmlFile());
+                        view.ShowResult(model.CreateXmlFile());
                         break;
                     case "2":
-                        model.FileName = View.ReadLine("Enter file name:");
-                        model.InputPerson = View.PromptForPerson();
-                        View.ShowResult(model.CreateXmlFile());
+                        model.FileName = view.ReadLine("Enter file name:");
+                        model.InputPerson = view.PromptForPerson();
+                        view.ShowResult(model.CreateXmlFile());
                         break;
                     case "3":
-                        View.ShowResult("This action is not supported for XML files.");
+                        view.ShowResult("This action is not supported for XML files.");
                         break;
                     case "4":
-                        model.FileName = View.ReadLine("Enter file name:");
-                        View.ShowPerson(model.ReadXmlFile());
+                        model.FileName = view.ReadLine("Enter file name:");
+                        view.ShowPerson(model.ReadXmlFile());
                         break;
                     case "5":
-                        model.FileName = View.ReadLine("Enter file name:");
-                        View.ShowResult(model.DeleteFile());
+                        model.FileName = view.ReadLine("Enter file name:");
+                        view.ShowResult(model.DeleteFile());
                         break;
                     case "0":
                         break;
                     default:
-                        View.ShowResult("Invalid command. Please enter a number between 0 and 5.");
+                        view.ShowResult("Invalid command. Please enter a number between 0 and 5.");
                         break;
                 }
-                command = View.GetFileCommand();
+                command = view.GetFileCommand();
             }
         }
         public void ZipArchives(int num)
         {
             model.FileType = ".zip";
-            string? command = View.GetFileCommand();
+            string? command = view.GetFileCommand();
             while (command != "0")
             {
                 switch (command)
                 {
                     case "1":
-                        View.ShowResult("This action is not supported for ZIP files.");
+                        view.ShowResult("This action is not supported for ZIP files.");
                         break;
                     case "2":
-                        model.FileName = View.ReadLine("Enter archive name:");
-                        model.InputString = View.ReadLine("Enter file path.").Trim('"');
-                        View.ShowResult(model.CreateZipFile());
+                        model.FileName = view.ReadLine("Enter archive name:");
+                        model.InputString = view.ReadLine("Enter file path.").Trim('"');
+                        view.ShowResult(model.CreateZipFile());
                         break;
                     case "3":
-                        View.ShowResult("This action is not supported for ZIP files.");
+                        view.ShowResult("This action is not supported for ZIP files.");
                         break;
                     case "4":
-                        model.FileName = View.ReadLine("Enter file name:");
-                        View.ShowResult(model.CheckZipFile());
+                        model.FileName = view.ReadLine("Enter file name:");
+                        view.ShowResult(model.CheckZipFile());
                         break;
                     case "5":
-                        model.FileName = View.ReadLine("Enter file name:");
-                        model.InputString = View.ReadLine("Enter extraction path.").Trim('"');
-                        View.ShowResult(model.ExtractZipFile());
+                        model.FileName = view.ReadLine("Enter file name:");
+                        model.InputString = view.ReadLine("Enter extraction path.").Trim('"');
+                        view.ShowResult(model.ExtractZipFile());
                         break;
                     case "0":
                         break;
                     default:
-                        View.ShowResult("Invalid command. Please enter a number between 0 and 5.");
+                        view.ShowResult("Invalid command. Please enter a number between 0 and 5.");
                         break;
                 }
-                command = View.GetFileCommand();
+                command = view.GetFileCommand();
             }
         }
     }
