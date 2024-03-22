@@ -123,24 +123,13 @@ namespace File_Assistant
             return "File was created";
         }
 
-        public string ReadJsonFile()
+        public Person? ReadJsonFile()
         {
-            try
-            {
-                using FileStream file = new(FileName, FileMode.Open, FileAccess.Read);
-                byte[] array = new byte[file.Length];
-                file.Read(array, 0, array.Length);
-                var person = JsonSerializer.Deserialize<Person>(array);
-                return person?.ToString() ?? "No data found";
-            }
-            catch (FileNotFoundException)
-            {
-                return "File doesn't exist.";
-            }
-            catch (JsonException)
-            {
-                return "The file contains an incorrect structure of JSON...";
-            }
+            using FileStream file = new(FileName, FileMode.Open, FileAccess.Read);
+            byte[] array = new byte[file.Length];
+            file.Read(array, 0, array.Length);
+            var person = JsonSerializer.Deserialize<Person>(array);
+            return person;
         }
         public string CreateXmlFile()
         {
@@ -149,24 +138,13 @@ namespace File_Assistant
             xmlSerializer.Serialize(file, InputPerson);
             return "File was created";
         }
-        public string ReadXmlFile()
+        public Person? ReadXmlFile()
         {
-            try
-            {
-                using FileStream file = new(FileName, FileMode.Open, FileAccess.Read);
-                Person? restoredPerson = new();
-                XmlSerializer xmlSerializer = new(typeof(Person));
-                restoredPerson = xmlSerializer.Deserialize(file) as Person;
-                return restoredPerson?.ToString() ?? "No data found";
-            }
-            catch (FileNotFoundException)
-            {
-                return "File doesn't exist.";
-            }
-            catch (InvalidOperationException)
-            {
-                return "The file contains an incorrect structure of Xml...";
-            }
+            using FileStream file = new(FileName, FileMode.Open, FileAccess.Read);
+            Person? restoredPerson = new();
+            XmlSerializer xmlSerializer = new(typeof(Person));
+            restoredPerson = xmlSerializer.Deserialize(file) as Person;
+            return restoredPerson;
         }
         public void ZipFilesHandling()
         {

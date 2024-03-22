@@ -114,7 +114,7 @@
                         break;
                     case "4":
                         model.FileName = View.ReadLine("Enter file name:");
-                        View.ShowResult(model.ReadJsonFile());
+                        View.ShowPerson(model.ReadJsonFile());
                         break;
                     case "5":
                         model.FileName = View.ReadLine("Enter file name:");
@@ -152,7 +152,7 @@
                         break;
                     case "4":
                         model.FileName = View.ReadLine("Enter file name:");
-                        View.ShowResult(model.ReadXmlFile());
+                        View.ShowPerson(model.ReadXmlFile());
                         break;
                     case "5":
                         model.FileName = View.ReadLine("Enter file name:");

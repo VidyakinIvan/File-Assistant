@@ -12,9 +12,9 @@
         public string ReadTextFile();
         public string DeleteFile();
         public string CreateJsonFile();
-        public string ReadJsonFile();
+        public Person? ReadJsonFile();
         public string CreateXmlFile();
-        public string ReadXmlFile();
+        public Person? ReadXmlFile();
         public void ZipFilesHandling();
     }
 }
