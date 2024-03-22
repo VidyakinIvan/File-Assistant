@@ -38,6 +38,21 @@ namespace File_Assistant
                 }
             }
         }
+        private string fileType = ".txt";
+        public string FileType
+        {
+            get
+            {
+                return fileType;
+            }
+            set
+            {
+                if (value is not null && (value == ".txt" || value == ".json" || value == ".xml"))
+                {
+                    fileType = value;
+                }
+            }
+        }
         private string fileName = "Undefined.txt";
         public string FileName 
         { 
@@ -47,7 +62,7 @@ namespace File_Assistant
             }
             set
             {
-                fileName = validateFileName(value, ".txt");
+                fileName = validateFileName(value, FileType);
             }
         }
 
@@ -83,7 +98,14 @@ namespace File_Assistant
             file.Write(array, 0, array.Length);
             return "Data was inserted";
         }
-        public string DeleteTextFile()
+        public string ReadTextFile()
+        {
+            using FileStream file = new(FileName, FileMode.Open, FileAccess.Read);
+            byte[] array = new byte[file.Length];
+            file.Read(array, 0, array.Length);
+            return Encoding.UTF8.GetString(array);
+        }
+        public string DeleteFile()
         {
             FileInfo fileInfo = new(FileName);
             if (fileInfo.Exists)
@@ -92,6 +114,33 @@ namespace File_Assistant
                 return "File was deleted.";
             }
             return "File doesn't exist.";
+        }
+        public string CreateJsonFile()
+        {
+            using FileStream file = new(FileName, FileMode.Create, FileAccess.Write);
+            byte[] array = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(InputPerson));
+            file.Write(array, 0, array.Length);
+            return "File was created";
+        }
+
+        public string ReadJsonFile()
+        {
+            try
+            {
+                using FileStream file = new(FileName, FileMode.Open, FileAccess.Read);
+                byte[] array = new byte[file.Length];
+                file.Read(array, 0, array.Length);
+                var person = JsonSerializer.Deserialize<Person>(array);
+                return person?.ToString() ?? "No data found";
+            }
+            catch (FileNotFoundException)
+            {
+                return "File doesn't exist.";
+            }
+            catch (JsonException)
+            {
+                return "The file contains an incorrect structure of JSON...";
+            }
         }
         public void JsonFilesHandling()
         {

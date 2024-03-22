@@ -53,6 +53,7 @@
         }
         private void FileStreams(int num)
         {
+            model.FileType = ".txt";
             string? command = View.GetFileCommand();
             while (command != "0")
             {
@@ -75,12 +76,16 @@
                         break;
                     case "4":
                         model.FileName = View.ReadLine("Enter file name:");
-                        View.ShowResult(model.DeleteTextFile());
+                        View.ShowResult(model.ReadTextFile());
+                        break;
+                    case "5":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        View.ShowResult(model.DeleteFile());
                         break;
                     case "0":
                         break;
                     default:
-                        View.ShowResult("Invalid command. Please enter a number between 0 and 4.");
+                        View.ShowResult("Invalid command. Please enter a number between 0 and 5.");
                         break;
                 }
                 command = View.GetFileCommand();
@@ -88,9 +93,41 @@
         }
         private void JSONSerialization(int num)
         {
-            model.FileName = View.ReadLine("Enter file name:");
-            model.InputPerson = View.PromptForPerson();
-            model.JsonFilesHandling();
+            model.FileType= ".json";
+            string? command = View.GetFileCommand();
+            while (command != "0")
+            {
+                switch (command)
+                {
+                    case "1":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        model.InputPerson = new();
+                        View.ShowResult(model.CreateJsonFile());
+                        break;
+                    case "2":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        model.InputPerson = View.PromptForPerson();
+                        View.ShowResult(model.CreateJsonFile());
+                        break;
+                    case "3":
+                        View.ShowResult("This action is not supported for JSON files.");
+                        break;
+                    case "4":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        View.ShowResult(model.ReadJsonFile());
+                        break;
+                    case "5":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        View.ShowResult(model.DeleteFile());
+                        break;
+                    case "0":
+                        break;
+                    default:
+                        View.ShowResult("Invalid command. Please enter a number between 0 and 5.");
+                        break;
+                }
+                command = View.GetFileCommand();
+            }
         }
         private void XMLSerialization(int num)
         {

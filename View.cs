@@ -49,7 +49,8 @@
                         1 - Create empty file.
                         2 - Create file with data.
                         3 - Insert data in existing file.
-                        4 - Delete file.
+                        4 - Read file.
+                        5 - Delete file.
                         0 - Exit.");
             string? command = Console.ReadLine();
             return command;
