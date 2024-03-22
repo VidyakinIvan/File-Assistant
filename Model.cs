@@ -47,7 +47,7 @@ namespace File_Assistant
             }
             set
             {
-                if (value is not null && (value == ".txt" || value == ".json" || value == ".xml"))
+                if (value is not null && (value == ".txt" || value == ".json" || value == ".xml" || value == ".zip"))
                 {
                     fileType = value;
                 }
@@ -122,7 +122,6 @@ namespace File_Assistant
             file.Write(array, 0, array.Length);
             return "File was created";
         }
-
         public Person? ReadJsonFile()
         {
             using FileStream file = new(FileName, FileMode.Open, FileAccess.Read);
@@ -145,6 +144,33 @@ namespace File_Assistant
             XmlSerializer xmlSerializer = new(typeof(Person));
             restoredPerson = xmlSerializer.Deserialize(file) as Person;
             return restoredPerson;
+        }
+        public string CreateZipFile()
+        {
+            using ZipArchive zipFile = ZipFile.Open(FileName, ZipArchiveMode.Create);
+            FileInfo fileInfo = new(InputString);
+            zipFile.CreateEntryFromFile(InputString, Path.GetFileName(InputString));
+            fileInfo.Delete();
+            return "Zip file was created";
+        }
+        public string CheckZipFile()
+        {
+            using ZipArchive archive = ZipFile.OpenRead(FileName);
+            StringBuilder stringBuilder = new();
+            foreach (ZipArchiveEntry entry in archive.Entries)
+            {
+                stringBuilder.AppendLine(@$"Filename: {entry.Name}
+                                    Size: {entry.Length}B
+                                    Last-modified date: {entry.LastWriteTime}");
+            }
+            return stringBuilder.ToString();
+        }
+        public string ExtractZipFile()
+        {
+            FileInfo fileInfo = new(FileName);
+            ZipFile.ExtractToDirectory(FileName, InputString);
+            fileInfo.Delete();
+            return "File was extracted";
         }
         public void ZipFilesHandling()
         {

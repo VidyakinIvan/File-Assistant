@@ -15,6 +15,9 @@
         public Person? ReadJsonFile();
         public string CreateXmlFile();
         public Person? ReadXmlFile();
+        public string CreateZipFile();
+        public string CheckZipFile();
+        public string ExtractZipFile();
         public void ZipFilesHandling();
     }
 }

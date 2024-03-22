@@ -167,18 +167,49 @@
                 command = View.GetFileCommand();
             }
         }
-        //private void XMLSerialization(int num)
-        //{
-        //    model.FileName = View.ReadLine("Enter file name:");
-        //    model.InputPerson = View.PromptForPerson();
-        //    model.XmlFilesHandling();
-        //}
-        private void ZipArchives(int num)
+        public void ZipArchives(int num)
         {
-            model.FileName = View.ReadLine("Enter achive name:");
-            model.InputString = View.ReadLine("Enter file path.");
-            model.ZipFilesHandling();
+            model.FileType = ".zip";
+            string? command = View.GetFileCommand();
+            while (command != "0")
+            {
+                switch (command)
+                {
+                    case "1":
+                        View.ShowResult("This action is not supported for ZIP files.");
+                        break;
+                    case "2":
+                        model.FileName = View.ReadLine("Enter archive name:");
+                        model.InputString = View.ReadLine("Enter file path.").Trim('"');
+                        View.ShowResult(model.CreateZipFile());
+                        break;
+                    case "3":
+                        View.ShowResult("This action is not supported for ZIP files.");
+                        break;
+                    case "4":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        View.ShowResult(model.CheckZipFile());
+                        break;
+                    case "5":
+                        model.FileName = View.ReadLine("Enter file name:");
+                        model.InputString = View.ReadLine("Enter extraction path.").Trim('"');
+                        View.ShowResult(model.ExtractZipFile());
+                        break;
+                    case "0":
+                        break;
+                    default:
+                        View.ShowResult("Invalid command. Please enter a number between 0 and 5.");
+                        break;
+                }
+                command = View.GetFileCommand();
+            }
         }
+        //private void ZipArchives(int num)
+        //{
+        //    model.FileName = View.ReadLine("Enter achive name:");
+        //    model.InputString = View.ReadLine("Enter file path.");
+        //    model.ZipFilesHandling();
+        //}
     }
 
 }
