@@ -17,3 +17,7 @@ Console user interface has been completely translated to english.
 ## 1.0.0 - 07.02.2024
 
 First stable version of the program.
+
+##1.1.0 - 22.03.2024
+
+Most of the program has been rewritten to match the MVC pattern
